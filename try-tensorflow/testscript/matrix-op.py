@@ -38,6 +38,8 @@ T_v = tf.transpose(tf_v)
 
 max_T_v = tf.argmax(T_v, dimension=1)
 
+flat_v = tf.reshape(T_v, [-1])
+
 max_v = tf.argmax(tf_v, dimension=0)
 max_vT = tf.argmax(tf_vT, dimension=0)
 #
@@ -65,6 +67,7 @@ with tf.Session() as sess:
     display(sess, tf_v, name='tf_v')
     display(sess, tf_vT, name='tf_vT')
     display(sess, T_v, name='T_v')
+    display(sess, flat_v, name='flat_v')
 
     display(sess, max_T_v, name='max_T_v')
     display(sess, max_v, name='max_v')
