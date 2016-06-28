@@ -34,8 +34,12 @@ reduce_sum3 = tf.reduce_sum(tf_y, reduction_indices=1, keep_dims=True)
 #
 
 # Test for tf.argsort and tf.argmax
+T_v = tf.transpose(tf_v)
+
+max_T_v = tf.argmax(T_v, dimension=1)
+
 max_v = tf.argmax(tf_v, dimension=0)
-max_vT = tf.argmax(tf_v, dimension=0)
+max_vT = tf.argmax(tf_vT, dimension=0)
 #
 
 init_op = tf.initialize_all_variables()
@@ -60,6 +64,8 @@ with tf.Session() as sess:
 
     display(sess, tf_v, name='tf_v')
     display(sess, tf_vT, name='tf_vT')
+    display(sess, T_v, name='T_v')
 
+    display(sess, max_T_v, name='max_T_v')
     display(sess, max_v, name='max_v')
     display(sess, max_vT, name='max_vT')
