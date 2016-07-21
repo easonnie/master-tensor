@@ -2,21 +2,24 @@ import numpy as np
 import tensorflow as tf
 
 
-max_seq_len = 5
-word_d = 4
+_max_seq_len = 5
+_word_d = 4
 batch_size = 2
 
 np.random.seed(8)
 
-input = np.asarray([np.random.randint(-5, 5, (max_seq_len, word_d)) for i in range(batch_size)])
+input = np.asarray([np.random.randint(-5, 5, (_max_seq_len, _word_d)) for i in range(batch_size)])
 
 # print(input)
 
 
-g_input = tf.placeholder(dtype=tf.float32, shape=[None, max_seq_len, word_d])
+g_input = tf.placeholder(dtype=tf.float32, shape=[None, _max_seq_len, _word_d])
 
 
 def cnn(input: tf.Tensor, n_grams, n_features) -> tf.Tensor:
+    max_seq_len = int(input.get_shape()[1])
+    word_d = int(input.get_shape()[2])
+
     tran_input = tf.reshape(input, [-1, 1, max_seq_len, word_d])
     results = list()
 
