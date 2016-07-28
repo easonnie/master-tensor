@@ -35,6 +35,8 @@ b_output, b_state = tf.nn.dynamic_rnn(b_cell,
                                       dtype=tf.float32,
                                       scope='backward_rnn')
 
+print([v.name for v in tf.all_variables()])
+
 init_op = tf.initialize_all_variables()
 
 with tf.Session() as sess:

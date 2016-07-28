@@ -1,6 +1,5 @@
 import tensorflow as tf
-from tensorflow.models.rnn import rnn_cell
-from tensorflow.models.rnn import rnn
+
 import numpy as np
 
 
@@ -44,7 +43,7 @@ vec_data = tf.nn.embedding_lookup(embedding, data)
 
 lens = tf.placeholder(tf.int32, [None])
 
-output, state = rnn.dynamic_rnn(
+output, state = tf.nn.dynamic_rnn(
     lstm_cell,
     vec_data,
     dtype=tf.float32,
