@@ -1,5 +1,6 @@
 from try_tensorflow.gru_decomp.test_case import *
 from try_tensorflow.length_mask.mask1 import *
+from try_tensorflow.gru_decomp import util
 # print([var for var in tf.all_variables()])
 
 
@@ -109,6 +110,12 @@ if __name__ == '__main__':
         dtype=tf.float32
     )
 
+    h_output = outputs[:, :, :hidden_d]
+    h_reset_gate = outputs[:, :, hidden_d:hidden_d * 2]
+    h_update_gate = outputs[:, :, hidden_d * 2:]
+
+    reset_gate_avg = util.avg2d_along_time(h_reset_gate, times)
+
     init_op = tf.initialize_all_variables()
     update = copy_value()
 
@@ -124,9 +131,12 @@ if __name__ == '__main__':
         sess.run(update)
         # print(sess.run(w))
         start = time.time()
-        p_outputs, p_last_state = sess.run((outputs, last_state), feed_dict=feed_dict)
+        p_outputs, p_last_state = sess.run((h_reset_gate, last_state), feed_dict=feed_dict)
         print(p_outputs)  # [2, 5, 3]
         # print(p_last_state) # [2, 3]
+        avg_reset_gate = sess.run(reset_gate_avg, feed_dict=feed_dict)
+        print(avg_reset_gate)
+
         end = time.time()
         print(end - start)
         # print(p_output_pack)

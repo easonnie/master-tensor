@@ -1,16 +1,19 @@
 import tensorflow as tf
 import numpy as np
 
-batch_size = 128
-time = 80
+batch_size = 2
+time = 5
 word_d = 4
 hidden_d = 3
 
 np.random.seed(8)
 tf.set_random_seed(2)
 
-nd_inputs = np.asarray([np.random.randint(0, 5, size=[time, word_d], dtype=np.int32) for i in range(batch_size)])
+# nd_inputs = np.asarray([np.random.randint(0, 5, size=[time, word_d], dtype=np.int32) for i in range(batch_size)])
 nd_time = np.random.randint(0, 5, batch_size, dtype=np.int32)
+
+nd_inputs = np.asarray([np.random.uniform(-0.02, 0.02, size=[time, word_d]) for i in range(batch_size)])
+# nd_time = np.random.randint(0, 5, batch_size, dtype=np.int32)
 
 print(nd_inputs) # [2, 5, 3]
 print(nd_time) # [2]
