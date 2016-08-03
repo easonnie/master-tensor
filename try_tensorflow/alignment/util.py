@@ -104,11 +104,30 @@ def last_relevant(inputs, input_len):
 
 
 def softmax_on_score(inputs, input_len):
+    """
+    :param inputs: [batch, time, 1]
+    :param input_len: [batch]
+    :return: [batch, time]
+    """
     max_length = int(inputs.get_shape()[1])
     flatten_inputs = tf.reshape(inputs, [-1, max_length])
     m_softmax = masked(tf.exp(flatten_inputs), input_len)
     res_softmax = m_softmax / tf.reduce_sum(m_softmax, reduction_indices=[1], keep_dims=True)
     return res_softmax
+
+
+def weighted_sum(inputs, weights):
+    """
+    :param inputs: [batch, max_length, dimension]
+    :param weights: [batch, max_length]
+    :return: [batch, dimension]
+    """
+    d = int(inputs.get_shape()[2])
+    max_time = int(inputs.get_shape()[1])
+    # flat_inputs = tf.reshape(inputs, [-1, max_time, d])
+    flat_weights = tf.reshape(weights, [-1, max_time, 1])
+    result = tf.reduce_sum(tf.reshape(inputs * flat_weights, [-1, max_time, d]), reduction_indices=[1])
+    return result
 
 
 if __name__ == '__main__':

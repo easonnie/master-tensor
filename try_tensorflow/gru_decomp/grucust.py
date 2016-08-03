@@ -114,7 +114,7 @@ if __name__ == '__main__':
     h_reset_gate = outputs[:, :, hidden_d:hidden_d * 2]
     h_update_gate = outputs[:, :, hidden_d * 2:]
 
-    reset_gate_avg = util.avg2d_along_time(h_reset_gate, times)
+    reset_gate_avg = util.avg2d_along_time(h_output, times)
 
     init_op = tf.initialize_all_variables()
     update = copy_value()
@@ -131,7 +131,7 @@ if __name__ == '__main__':
         sess.run(update)
         # print(sess.run(w))
         start = time.time()
-        p_outputs, p_last_state = sess.run((h_reset_gate, last_state), feed_dict=feed_dict)
+        p_outputs, p_last_state = sess.run((h_output, last_state), feed_dict=feed_dict)
         print(p_outputs)  # [2, 5, 3]
         # print(p_last_state) # [2, 3]
         avg_reset_gate = sess.run(reset_gate_avg, feed_dict=feed_dict)
